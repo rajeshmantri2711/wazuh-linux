@@ -166,10 +166,10 @@ Wazuh agents are **software components** installed on endpoints (servers, workst
 Run the following command on your Debian/Ubuntu machine:
 
 ```bash
-sudo curl -s https://raw.githubusercontent.com/i-am-paradoxx/wazuh-linux/main/Linux-Install.sh | bash
+sudo curl -s https://raw.githubusercontent.com/rajeshmantri2711/wazuh-linux/main/Linux-Install.sh | bash
 ```
 > **Note:** This script fetches and installs the latest supported agent version. 
-> You can inspect the script [here](https://github.com/i-am-paradoxx/wazuh-linux/blob/main/Linux-Install.sh)
+> You can inspect the script [here](https://github.com/rajeshmantri2711/wazuh-linux/blob/main/Linux-Install.sh)
 
 #### Step 2: Enable and Start Agent
 
@@ -233,7 +233,7 @@ This project makes use of resources and code from:
 curl -sO https://packages.wazuh.com/4.5/wazuh-install.sh && sudo bash ./wazuh-install.sh -a
 
 # Install Wazuh Agent  
-sudo curl -s https://raw.githubusercontent.com/i-am-paradoxx/wazuh-linux/main/Linux-Install.sh | bash
+sudo curl -s https://raw.githubusercontent.com/rajeshmantri2711/wazuh-linux/main/Linux-Install.sh | bash
 ```
 
 ---
