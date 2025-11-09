@@ -1,7 +1,7 @@
-# Wazuh Linux Installation Guide
+
 <div align="center">
 
-**A comprehensive guide for installing and configuring Wazuh on Linux systems**
+<h1>A comprehensive guide for installing and configuring Wazuh on Linux systems</h1>
 
 </div>
 
@@ -33,9 +33,9 @@ Currently Wazuh supports the following operating system versions:
 | **Amazon Linux** | 2, 2023 |
 
 ---
-
-## Installation Guide
-
+<div align="center">
+<h2>Installation Guide</h2>
+</div>
 ### Prerequisites
 
 Ensure you have `curl` installed on your system:
@@ -185,8 +185,9 @@ sudo grep ^status /var/ossec/var/run/wazuh-agentd.state
 ```
 
 ---
-
-## Integrating Suricata for Network Intrusion Detection
+<div align="center">
+<h2>Integrating Suricata for Network Intrusion Detection</h2>
+</div>
 
 To enhance threat detection with network-level monitoring, you can integrate Suricata. This allows Wazuh to analyze network traffic and generate alerts for suspicious activity. These steps should be performed on the machine running the **Wazuh agent**.
 
