@@ -1,7 +1,7 @@
-# Wazuh Linux Installation Guide
+
 <div align="center">
 
-**A comprehensive guide for installing and configuring Wazuh on Linux systems**
+<h1>A comprehensive guide for installing and configuring Wazuh on Linux systems</h1>
 
 </div>
 
@@ -33,9 +33,9 @@ Currently Wazuh supports the following operating system versions:
 | **Amazon Linux** | 2, 2023 |
 
 ---
-
-## Installation Guide
-
+<div align="center">
+<h2>Installation Guide</h2>
+</div>
 ### Prerequisites
 
 Ensure you have `curl` installed on your system:
@@ -168,7 +168,7 @@ Run the following command on your Debian/Ubuntu machine:
 ```bash
 sudo curl -s https://raw.githubusercontent.com/rajeshmantri2711/wazuh-linux/main/Linux-Install.sh | bash
 ```
-> **Note:** This script fetches and installs the latest supported agent version. 
+> **Note:** This script fetches and installs the latest supported agent version.
 > You can inspect the script [here](https://github.com/rajeshmantri2711/wazuh-linux/blob/main/Linux-Install.sh)
 
 #### Step 2: Enable and Start Agent
@@ -183,6 +183,97 @@ sudo systemctl start wazuh-agent
 ```bash
 sudo grep ^status /var/ossec/var/run/wazuh-agentd.state
 ```
+
+---
+<div align="center">
+<h2>Integrating Suricata for Network Intrusion Detection</h2>
+</div>
+
+To enhance threat detection with network-level monitoring, you can integrate Suricata. This allows Wazuh to analyze network traffic and generate alerts for suspicious activity. These steps should be performed on the machine running the **Wazuh agent**.
+
+### Step 1: Install Suricata
+
+```bash
+sudo apt update
+sudo apt install suricata -y
+```
+
+### Step 2: Download Suricata Rules
+
+Download the Emerging Threats Open ruleset, a widely used and effective set of open-source IDS rules.
+
+```bash
+cd /tmp/
+curl -LO https://rules.emergingthreats.net/open/suricata-6.0.8/emerging.rules.tar.gz
+sudo tar -xvzf emerging.rules.tar.gz
+# The rules path may already exist
+sudo mkdir -p /etc/suricata/rules
+sudo mv rules/*.rules /etc/suricata/rules/
+sudo chmod 640 /etc/suricata/rules/*.rules
+```
+
+### Step 3: Configure Suricata
+
+Edit the Suricata configuration file at `/etc/suricata/suricata.yaml` and make the following changes:
+
+1.  **Set your local network address:**
+    Replace the default `HOME_NET` with the IP address of your agent machine.
+
+    ```yaml
+    address-groups:
+      HOME_NET: "[10.10.10.10]"   # Change this to your agent's IP
+    ```
+
+2.  **Set the monitoring interface:**
+    Find the `af-packet` section and specify the network interface Suricata should monitor.
+    > You can find your interface name using the `ip addr` command.
+
+    ```yaml
+    af-packet:
+      - interface: eth0 # Change this to your network interface
+    ```
+
+3.  **Verify rule paths:**
+    Ensure the rule path and files are correctly configured. This is usually the default setting.
+    ```yaml
+    default-rule-path: /etc/suricata/rules
+    rule-files:
+      - "*.rules"
+    ```
+
+### Step 4: Update Rules and Start Suricata
+
+Run `suricata-update` to process the new rules and then start and enable the Suricata service.
+
+```bash
+sudo suricata-update
+sudo systemctl enable --now suricata
+```
+
+### Step 5: Configure Wazuh Agent for Suricata
+
+Edit the Wazuh agent configuration file at `/var/ossec/etc/ossec.conf` on the agent machine and add the following block to tell the agent to read Suricata's JSON alert log:
+
+```xml
+<localfile>
+  <log_format>json</log_format>
+  <location>/var/log/suricata/eve.json</location>
+</localfile>
+```
+
+### Step 6: Restart Services
+
+For all the configuration changes to take effect, restart the Wazuh agent and the Wazuh manager.
+
+```bash
+# On the Wazuh Agent machine
+sudo systemctl restart wazuh-agent
+
+# On the Wazuh Manager machine
+sudo systemctl restart wazuh-manager
+```
+
+You should now be able to see Suricata network alerts in your Wazuh dashboard.
 
 ---
 
@@ -219,8 +310,7 @@ This project makes use of resources and code from:
 
 - [**Wazuh GitHub Repository**](https://github.com/wazuh/wazuh) - Official Wazuh source code
 - [**Wazuh Official Website**](https://wazuh.com) - Documentation and resources
-
-**Special thanks** to the Wazuh team for their contributions to the open-source community.
+- [**Suricata Website**](https://suricata.io/) - suricata download and documentation
 
 ---
 
@@ -232,7 +322,7 @@ This project makes use of resources and code from:
 # Install Wazuh Manager
 curl -sO https://packages.wazuh.com/4.5/wazuh-install.sh && sudo bash ./wazuh-install.sh -a
 
-# Install Wazuh Agent  
+# Install Wazuh Agent
 sudo curl -s https://raw.githubusercontent.com/rajeshmantri2711/wazuh-linux/main/Linux-Install.sh | bash
 ```
 
@@ -246,8 +336,7 @@ sudo curl -s https://raw.githubusercontent.com/rajeshmantri2711/wazuh-linux/main
 
 ---
 
-**Questions or Issues?** Open an issue in this repository  
+**Questions or Issues?** Open an issue in this repository
 **Found this helpful?** Give it a star on GitHub!
 
 </div>
-
