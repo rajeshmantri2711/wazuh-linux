@@ -25,7 +25,7 @@ When an EICAR test file (or any file identified as malicious by VirusTotal) is i
 <p align="center">
   <img src="wazuh-1.png" alt="Wazuh Alert 1" width="700"/>
   <br>
-  <em>Image 1: Wazuh dashboard showing initial detection of malicious file.</em>
+  <em>Image 1: Wazuh dashboard.</em>
 </p>
 
 <p align="center">
@@ -37,7 +37,7 @@ When an EICAR test file (or any file identified as malicious by VirusTotal) is i
 <p align="center">
   <img src="wazuh-3.png" alt="Wazuh Alert 3" width="700"/>
   <br>
-  <em>Image 3: Wazuh dashboard showing active response action (file removal).</em>
+  <em>Image 3: Wazuh dashboard showing active response.</em>
 </p>
 
 ### Reference Files:
